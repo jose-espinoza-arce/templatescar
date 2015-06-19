@@ -18,9 +18,9 @@
 
 {% block content %}
 
-    <div class="row-fluid">
-        <div class="span6 login_form">
-            <form id="login_form" action="{{ request.get_full_path }}" method="post" class="well" >
+    <div class="row th-logins">
+        <div class="col-sm-6 th-logins-col login_form">
+            <form id="login_form" action="{{ request.get_full_path }}" method="post" class="login-col" >
                 <h2>{% trans 'Log In' %}</h2>
                 {% csrf_token %}
                 {% include "partials/form_fields.html" with form=login_form %}
@@ -28,8 +28,8 @@
                 <button name="login_submit" type="submit" value="Log In" class="btn btn-large btn-primary js-disable-on-click" data-loading-text="{% trans "Logging in..." %}">{% trans 'Log In' %}</button>
             </form>
         </div>
-        <div class="span6 register_form">
-            <form id="register_form" action="{{ request.get_full_path }}" method="post" class="well">
+        <div class="col-sm-6 th-logins-col th-logins-col-right register_form">
+            <form id="register_form" action="{{ request.get_full_path }}" method="post" class="login-col">
                 <h2>{% trans 'Register' %}</h2>
                 {% csrf_token %}
                 {% include "partials/form_fields.html" with form=registration_form %}
