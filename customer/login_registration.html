@@ -6,12 +6,17 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <ul class="breadcrumb th-breadcrumb">
-        <li>
-            <a href="{{ homepage_url }}">{% trans 'Home' %}</a>
-        </li>
-        <li class="active">{% trans 'Login or register' %}</li>
-    </ul>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="breadcrumb th-breadcrumb">
+                <li>
+                    <a href="{{ homepage_url }}">{% trans 'Home' %}</a>
+                </li>
+                <li class="active">{% trans 'Login or register' %}</li>
+            </ul>
+        </div>
+    </div>
 {% endblock %}
 
 {% block header %}{% endblock %}
