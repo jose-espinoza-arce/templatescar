@@ -1,4 +1,4 @@
-{% extends "layout_2_col.html" %}
+{% extends "layout_2_col_front.html" %}
 
 {% load i18n %}
 
@@ -9,18 +9,20 @@
 {% block body_class %}account-profile{% endblock %}
 
 {% block breadcrumbs %}
-    <ul class="breadcrumb">
-        <li>
-            <a href="{{ homepage_url }}">{% trans 'Home' %}</a>
-            <span class="divider">/</span>
-        </li>
-        <li>
-            <a href="{% url 'customer:summary' %}">{% trans 'Account' %}</a>
-            <span class="divider">/</span>
-        </li>
-        {% block extra_breadcrumbs %}{% endblock %}
-        <li class="active">{{ page_title }}</li>
-    </ul>
+    <div class="row">
+        <div class="col-sm-12">
+            <ul class="breadcrumb th-breadcrumb">
+                <li>
+                    <a href="{{ homepage_url }}">{% trans 'Home' %}</a>
+                </li>
+                <li>
+                    <a href="{% url 'customer:summary' %}">{% trans 'Account' %}</a>
+                </li>
+                {% block extra_breadcrumbs %}{% endblock %}
+                <li class="active">{{ page_title }}</li>
+            </ul>
+        </div>
+    </div>
 {% endblock %}
 
 {% block headertext %}{{ page_title }}{% endblock %}
