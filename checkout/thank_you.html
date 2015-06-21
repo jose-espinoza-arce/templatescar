@@ -29,14 +29,14 @@
         {% trans "Please make a note of this reference or print this page and quote it in any communication with us regarding your order." %}</p>
     </p>
 
-    <div class="row-fluid shipping-payment">
-        <div class="span6">
+    <div class="row shipping-payment">
+        <div class="col-sm-6">
             {% block shipping_info %}
                 <div class="sub-header">
-                    <h2>{% trans "Shipping" %}</h2>
+                    <h2 class="th-title">{% trans "Shipping" %}</h2>
                 </div>
                 <div class="well well-info">
-                    <h3>{% trans "Address" %}</h3>
+                    <h3 class="th-title">{% trans "Address" %}</h3>
                     {% if order.shipping_address %}
                         <address>
                             {% for field in order.shipping_address.active_address_fields %}
@@ -45,7 +45,7 @@
                         </address>
 
                         {% if order.shipping_address.phone_number %}
-                            <h4>{% trans "Contact" %}</h4>
+                            <h4 class="th-title">{% trans "Contact" %}</h4>
                             <p>
                                 {% trans "Phone" %}: {{ order.shipping_address.phone_number }}
                                 {% if order.guest_email %}
@@ -55,7 +55,7 @@
                         {% endif %}
 
                         {% if order.shipping_address.notes %}
-                            <h4>{% trans "Instructions" %}</h4>
+                            <h4 class="th-title">{% trans "Instructions" %}</h4>
                             <p>{{ order.shipping_address.notes|linebreaks }}</p>
                         {% endif %}
                     {% else %}
@@ -64,19 +64,19 @@
                 </div>
 
                 <div class="well well-info">
-                    <h3>{% trans "Shipping method" %}</h3>
+                    <h3 class="th-title">{% trans "Shipping method" %}</h3>
                     <p>{{ order.shipping_method }}</p>
                 </div>
             {% endblock %}
         </div>
 
-        <div class="span6">
+        <div class="col-sm-6">
             {% block payment_info %}
                 <div class="sub-header">
-                    <h2>{% trans "Payment" %}</h2>
+                    <h2 class="th-title">{% trans "Payment" %}</h2>
                 </div>
                 <div class="well well-success">
-                    <h3>{% trans "Payment" %}</h3>
+                    <h3 class="th-title">{% trans "Payment" %}</h3>
                     {% for source in order.sources.all %}
                         <p>
                         {% if source.reference %}
@@ -96,7 +96,7 @@
                     {% endfor %}
 
                     {% if order.billing_address %}
-                        <h4>{% trans "Billing address" %}</h4>
+                        <h4 class="th-title">{% trans "Billing address" %}</h4>
                         <address>
                             {% for field in order.billing_address.active_address_fields %}
                                 {{ field }}<br/>
@@ -110,31 +110,31 @@
     </div>
 
     <div class="sub-header">
-        <h2>{% trans "Order contents" %}</h2>
+        <h2 class="th-title">{% trans "Order contents" %}</h2>
     </div>
 
     <div class="basket-title">
-        <div class="row-fluid">
-            <p class="span9 h4">{% trans "Items purchased" %}</p>
-            <p class="span1 h4 align-center">{% trans "Quantity" %}</p>
-            <p class="span2 h4 align-right">{% trans "Total" %}</p>
+        <div class="row">
+            <p class="col-sm-9 th-title">{% trans "Items purchased" %}</p>
+            <p class="col-sm-1 th-title align-center">{% trans "Quantity" %}</p>
+            <p class="col-sm-2 th-title align-right">{% trans "Total" %}</p>
         </div>
     </div>
 
     {% for line in order.lines.all %}
         <div class="basket-items">
-            <div class="row-fluid">
-                <div class="span2">
+            <div class="row">
+                <div class="col-sm-2">
                     <div class="image_container">
                         {% with image=line.product.primary_image %}
                             {% thumbnail image.original "200x200" upscale=False as thumb %}
-                            <a href="{{ line.product.get_absolute_url }}"><img class="thumbnail" src="{{ thumb.url }}" alt="{{ product.get_title }}"></a>
+                            <a href="{{ line.product.get_absolute_url }}"><img class="img-thumbnail" src="{{ thumb.url }}" alt="{{ product.get_title }}"></a>
                             {% endthumbnail %}
                         {% endwith %}
                     </div>
                 </div>
-                <div class="span7">
-                    <h3><a href="{{ line.product.get_absolute_url }}">{{ line.description }}</a></h3>
+                <div class="col-sm-7">
+                    <h3 class="th-title"><a href="{{ line.product.get_absolute_url }}">{{ line.description }}</a></h3>
                     <p>
                     {% if line.upc %}{{ line.upc }}<br/>{% endif %}
                     {% if line.est_dispatch_date %}
@@ -144,10 +144,10 @@
                     {% endif %}
                     </p>
                 </div>
-                <div class="span1 align-center">
+                <div class="col-sm-1 align-center">
                     {{ line.quantity }}
                 </div>
-                <div class="span2 align-right">
+                <div class="col-sm-2 align-right">
                     <p class="price_color">
                         {% if show_tax_separately %}
                             {{ line.line_price_before_discounts_excl_tax|currency:order.currency }}
@@ -161,17 +161,17 @@
     {% endfor %}
 
     {% block basket_totals %}
-        <div class="row-fluid">
-            <div class="span6">&nbsp;</div>
-            <div class="span6">
+        <div class="row">
+            <div class="col-sm-6">&nbsp;</div>
+            <div class="col-sm-6">
                 <div class="sub-header">
-                    <h2>{% trans 'Totals' %}</h2>
+                    <h2 class="th-title">{% trans 'Totals' %}</h2>
                 </div>
 
-                <div id="basket_totals">
-                    <table class="table table-condensed">
+                <div id="basket_totals" class="th-basket-totals">
+                    <table class="table table-bordered">
                         <tr>
-                            <th colspan="2"><h3>{% trans "Basket" %}</h3></th>
+                            <th colspan="2"><h3 class="th-title">{% trans "Basket" %}</h3></th>
                         </tr>
                         {% with discounts=order.basket_discounts %}
                             {% block discount_totals %}
@@ -216,11 +216,11 @@
                                 <td></td>
                             </tr>
                             <tr>
-                                <th colspan="2"><h3>{% trans "Shipping" %}</h3></th>
+                                <th colspan="2"><h3 class="th-title">{% trans "Shipping" %}</h3></th>
                             </tr>
                             <tr>
-                                <td>{% trans "Shipping method" %}</td>
-                                <td class="align-right">{{ order.shipping_method }}</td>
+                                <td class="th-title">{% trans "Shipping method" %}</td>
+                                <td class="th-title align-right">{{ order.shipping_method }}</td>
                             </tr>
                             {% if order.has_shipping_discounts %}
                                 <tr>
@@ -270,7 +270,7 @@
                                         <th colspan="2">&nbsp;</th>
                                     </tr>
                                     <tr>
-                                        <th colspan="2"><h3>{% trans "Post order actions" %}</h3></th>
+                                        <th colspan="2"><h3 class="th-title">{% trans "Post order actions" %}</h3></th>
                                     </tr>
                                     {% for action in order.post_order_actions %}
                                         <tr>
@@ -286,8 +286,8 @@
                                 <th colspan="2">&nbsp;</th>
                             </tr>
                             <tr>
-                                <td class="total"><h3>{% trans "Order total" %}</h3></td>
-                                <td class="total align-right"><h3 class="price_color">{{ order.total_incl_tax|currency:order.currency }}</h3></td>
+                                <td class="total "><h3 class="th-title">{% trans "Order total" %}</h3></td>
+                                <td class="total align-right "><h3 class="th-title price_color">{{ order.total_incl_tax|currency:order.currency }}</h3></td>
                             </tr>
                         {% endblock order_total %}
                     </table>
@@ -299,7 +299,7 @@
     {% block order_tracking %}
         {% if not order.user %}
             <div class="sub-header">
-                <h2>{% trans "Tracking your order" %}</h2>
+                <h2 class="th-title">{% trans "Tracking your order" %}</h2>
             </div>
             <p>{% trans "You can track the status of your order" %}</p>
             <a class="btn btn-primary" href="{% url 'customer:anon-order' order_number=order.number hash=order.verification_hash %}">{% trans "View order status" %}</a>.
@@ -309,11 +309,11 @@
 
     {% block order_actions %}
         <div class="form-actions">
-            <div class="row-fluid">
-                <div class="span3">
+            <div class="row">
+                <div class="col-sm-3">
                     <p><a onclick="window.print()" href="#" class="btn btn-primary btn-block btn-large">{% trans "Print this page" %}</a></p>
                 </div>
-                <div class="span3 offset6">
+                <div class="col-sm-3 col-sm-offset-6">
                     <p><a href="{{ homepage_url }}" class="btn btn-primary btn-block btn-large">{% trans "Continue shopping" %}</a></p>
                 </div>
             </div>

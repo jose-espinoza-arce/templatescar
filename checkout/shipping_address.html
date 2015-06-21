@@ -14,18 +14,16 @@
 {% block order_contents %}{% endblock %}
 
 {% block shipping_address %}
-    <div class="sub-header">
-        <h2>{% trans "Where should we ship to?" %}</h2>
-    </div>
+
     {% if request.user.is_authenticated %}
         {% if addresses %}
-            <h3>{% trans "An address from your addressbook?" %}</h3>
+            <h3 class="th-title">{% trans "An address from your addressbook?" %}</h3>
             <div class="choose-block">
-                <ul class="row-fluid unstyled">
+                <ul class="list-unstyled clearfix">
                     {% for address in addresses %}
                         {% block select_address_form %}
-                            <li class="span6">
-                                <div class="well">
+                            <li class="">
+                                <div class="well clearfix">
                                     <address>
                                         {% block select_address_fields %}
                                             {% for field in address.active_address_fields %}
@@ -38,14 +36,14 @@
                                         <input type="hidden" name="action" value="ship_to" />
                                         <input type="hidden" name="address_id" value="{{ address.id }}" />
                                         {% if address.is_default_for_shipping %}
-                                            <button type="submit" class="btn btn-success btn-large ship-address"><i class="icon-ok"></i> {% trans "Ship to your default shipping address" %}</button>
+                                            <button type="submit" class="btn btn-success btn-sm ship-address"><i class="icon-ok"></i> {% trans "Ship to your default shipping address" %}</button>
                                         {% else %}
-                                            <button type="submit" class="btn btn-primary btn-large ship-address">{% trans "Ship to this address" %}</button>
+                                            <button type="submit" class="btn btn-primary btn-sm ship-address">{% trans "Ship to this address" %}</button>
                                         {% endif %}
                                         
                                         <div class="btn-group address-controls">
-                                            <a href="{% url 'checkout:user-address-update' pk=address.id %}" class="btn btn-small">{% trans "Edit address" %}</a>
-                                            <button class="btn btn-small dropdown-toggle" data-toggle="dropdown">
+                                            <a href="{% url 'checkout:user-address-update' pk=address.id %}" class="btn btn-primary btn-sm ">{% trans "Edit address" %}</a>
+                                            <button class="btn  btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">
                                                 <span class="caret"></span>
                                             </button>
                                             <ul class="dropdown-menu">
@@ -57,15 +55,16 @@
                             </li>
                             {% if forloop.counter|divisibleby:2 %}
                                 </ul>
-                                {% if not forloop.last %}<ul class="row-fluid">{% endif %}
+                                {% if not forloop.last %}<ul class="row">{% endif %}
                             {% endif %}
                         {% endblock %}
                     {% endfor %}
                 </ul>
             </div>
-            <h3>
-                {% trans "Or a new address?" %} 
+            <div class="clearfix"><h3 class="th-title">
+                {% trans "Or a new address?" %}
             </h3>
+            </div>
         {% endif %}
     {% endif %}
 
