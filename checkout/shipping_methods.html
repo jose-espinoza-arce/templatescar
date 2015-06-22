@@ -21,8 +21,8 @@
 {% block shipping_method %}
 
     <div role="tabpanel">
-    <div class="">
-        <div class="span2">
+    <div class="well clearfix">
+        <div class="col-sm-4">
            <ul class="nav nav-pills nav-stacked" role="tablist">
              {% for method in methods %}
                 <li role="presentation" {% if method.code == 'personal' %}class="active"{% endif %}>
@@ -31,20 +31,20 @@
              {% endfor %}
            </ul>
         </div>
-        <div class="span6">
+        <div class="col-sm-8">
             <div class="tab-content">
     <div class="basket-title">
-        <div class="row-fluid">
-            <h4 class="span8">{% trans "Method" %}</h4>
-            <h4 class="span3">Costo</h4>
+        <div class="row">
+            <h4 class="th-title col-sm-8">{% trans "Method" %}</h4>
+            <h4 class="th-title col-sm-4">Costo</h4>
         </div>
     </div>
     {% for method in methods %}
         <div role="tabpanel" class="tab-pane {% if method.code == 'personal' %}active{% endif %}"   id="{{ method.code }}">
         <div class="basket-items">
-            <div class="row-fluid">
-                <div class="span8">
-                    <h4>{{ method.name }}</h4>
+            <div class="row">
+                <div class="col-sm-8">
+                    <h4 class="th-title">{{ method.name }}</h4>
                     {% if method.description %}
                         <p>{{ method.description|safe }}</p>
                     {% endif %}
@@ -58,7 +58,7 @@
                         </small>
                     {% endif %}
                 </div>
-                <div class="span4">
+                <div class="col-sm-4">
                     {% shipping_charge method basket as charge %}
                     {% if charge.is_tax_known %}
                         {{ charge.incl_tax|currency:basket.currency }}

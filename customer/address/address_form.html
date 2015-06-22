@@ -6,12 +6,12 @@
 {% block extra_breadcrumbs %}
 	<li>
 		<a href="{% url 'customer:address-list' %}">{% trans 'Address book' %}</a>
-		<span class="divider">/</span>
+
 	</li>
 {% endblock %}
 
 {% block tabcontent %}
-    {% with style='horizontal' %}
+    {% with style='' %}
         {% include "partials/form.html" %}
     {% endwith %}
 {% endblock tabcontent %}

@@ -15,11 +15,13 @@
 {% endblock %}
 
 {% block payment_method %}
-    <div class="span6">
-    <h3>{% trans "Payment" %}</h3>
+    <div class="col-sm-6">
+    <div class="sub-header">
+        <h3 class="th-title">{% trans "Payment" %}</h3>
+    </div>
     <div class="well well-success" data-behaviours="match-height">
 
-        <h4>PayPal</h4>
+        <h4 class="th-title">PayPal</h4>
         <p>{% blocktrans with amount=order_total.incl_tax|local_currency %}
             {{ amount }} Serán cargados a su cuenta de PayPal:
         {% endblocktrans %}</p>
@@ -49,8 +51,8 @@
         </div>
 
         <div class="form-actions clearfix">
-            <div class="row-fluid">
-                <div class="span3 offset9">
+            <div class="row">
+                <div class="col-sm-3 col-sm-offset-9">
                      <button id='place-order' type="submit" class="btn btn-primary btn-large btn-block js-disable-on-click" data-loading-text="{% trans 'Submitting...' %}">{% trans "Place order" %}</button>
                 </div>
             </div>

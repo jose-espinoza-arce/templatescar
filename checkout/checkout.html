@@ -24,11 +24,12 @@
         </div>
     {% endif %}
 
-    <div class="row-fluid shipping-payment">
-        {% block shipping_address %}
-            <div class="span6">
+    <div class="shipping-payment th-shipping-payment">
+        <div class="row clearfix">
+            {% block shipping_address %}
+            <div class="col-sm-6">
                 <div class="sub-header">
-                    <h2>{% trans "Shipping" %}</h2>
+                    <h2 class="th-title">{% trans "Shipping" %}</h2>
                 </div>
                 {% if shipping_address %}
                     <div class="well well-info">
@@ -37,7 +38,7 @@
                                 {% trans "Change" %}
                             </a>
                         {% endblock %}
-                        <h3>{% trans "Address" %}</h3>
+                        <h3 class="th-title">{% trans "Address" %}</h3>
                         <address>
                             {% for field in shipping_address.active_address_fields %}
                                 {{ field }}<br/>
@@ -68,7 +69,7 @@
                                 {% trans "Change" %}
                             </a>
                         {% endblock %}
-                        <h3>{% trans "Shipping method" %}</h3>
+                        <h3 class="th-title">{% trans "Shipping method" %}</h3>
                         <p>{{ shipping_method.name }}
                             {% if shipping_method.description %}
                                 - {{ shipping_method.description|safe }}
@@ -79,46 +80,47 @@
                 {% endif %}
             </div>
         {% endblock shipping_address %}
+            {# You will almost certainly want to override this block to provide a payment summary #}
+            {% block payment_method %}
+                <div class="col-sm-6">
+                    <div class="sub-header">
+                        <h2 class="th-title">{% trans "Payment" %}</h2>
+                    </div>
+                    <div class="well well-success">
+                        <a href="{% url 'checkout:payment-details' %}" class="pull-right">
+                            {% trans "Change" %}
+                        </a>
 
-        {# You will almost certainly want to override this block to provide a payment summary #}
-        {% block payment_method %}
-            <div class="span6">
-                <div class="sub-header">
-                    <h2>{% trans "Payment" %}</h2>
+                        <h3 class="th-title">{% trans "Payment" %}</h3>
+                        <p>{% trans "Payment details to go here" %}</p>
+                    </div>
                 </div>
-                <div class="well well-success">
-                    <a href="{% url 'checkout:payment-details' %}" class="pull-right">
-                        {% trans "Change" %}
-                    </a>
-                    <h3>{% trans "Payment" %}</h3>
-                    <p>{% trans "Payment details to go here" %}</p>
-                </div>
-            </div>
-        {% endblock payment_method %}
+            {% endblock payment_method %}
+        </div>
     </div>
 
     {% block order_contents %}
         <div class="sub-header">
             {% block order_contents_actions %}
-                <a href="{% url 'basket:summary' %}" class="pull-right">
+                {% comment %}<a href="{% url 'basket:summary' %}" class="pull-right">
                     {% trans "Edit order contents" %}
-                </a>
+                </a>{% endcomment %}
             {% endblock %}
 
-            <h2>{% trans "Order contents" %}</h2>
+            <h2 class="th-title">{% trans "Order contents" %}</h2>
         </div>
         <div class="basket-title">
-            <div class="row-fluid">
-                <p class="span9 h4">{% trans "Item" %}</p>
-                <p class="span1 h4 align-center">{% trans "Quantity" %}</p>
-                <p class="span2 h4 align-right">{% trans "Total" %}</p>
+            <div class="row">
+                <p class="col-sm-9 th-title">{% trans "Item" %}</p>
+                <p class="col-sm-1 th-title align-center">{% trans "Quantity" %}</p>
+                <p class="col-sm-2 th-title align-right">{% trans "Total" %}</p>
             </div>
         </div>
         {% for line in basket.all_lines %}
             {% purchase_info_for_line request line as session %}
             <div class="basket-items">
-                <div class="row-fluid">
-                    <div class="span2">
+                <div class="row">
+                    <div class="col-sm-2">
                         <div class="image_container">
                             {% with image=line.product.primary_image %}
                                 {% thumbnail image.original "100x100" upscale=False as thumb %}
@@ -127,14 +129,14 @@
                             {% endwith %}
                         </div>
                     </div>
-                    <div class="span7">
+                    <div class="col-sm-7">
                         <h3><a href="{{ line.product.get_absolute_url }}">{{ line.description }}</a></h3>
                         <span class="availability {{ session.availability.code }}">{{ session.availability.message }}</span>
                     </div>
-                    <div class="span1 align-center">
+                    <div class="col-sm-1 align-center">
                         {{ line.quantity }}
                     </div>
-                    <div class="span2 align-right">
+                    <div class="col-sm-2 align-right">
                         <p class="price_color">
                             {% if not show_tax_separately and line.is_tax_known %}
                                 {{ line.line_price_incl_tax|currency:basket.currency }}
@@ -147,11 +149,11 @@
             </div>
         {% endfor %}
 
-        <div class="row-fluid">
-            <div class="span6">&nbsp;</div>
-            <div class="span6">
+        <div class="row">
+            <div class="col-sm-6">&nbsp;</div>
+            <div class="col-sm-6">
                 <div class="sub-header">
-                    <h2>{% trans 'Totals' %}</h2>
+                    <h2 class="th-title">{% trans 'Totals' %}</h2>
                 </div>
                 {% include 'basket/partials/basket_totals.html' %}
             </div>
