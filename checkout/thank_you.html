@@ -1,5 +1,5 @@
 {% extends "checkout/layout.html" %}
-{% load currency_filters %}
+{% load local_currency_filters %}
 {% load thumbnail %}
 {% load i18n %}
 {% load staticfiles %}
@@ -21,7 +21,7 @@
 {% endblock %}
 
 {% block content %}
-    <p class="lead">
+    <p class="lead th-lead">
         {% blocktrans with number=order.number %}
         Su orden ha sido generada y un email de confirmación le será enviado - su número de orden es
         <strong>{{ number }}</strong>.
@@ -40,7 +40,11 @@
                     {% if order.shipping_address %}
                         <address>
                             {% for field in order.shipping_address.active_address_fields %}
-                                {{ field }}<br/>
+                                {% if not forloop.last %}
+                                    {{ field }}<br/>
+                                {% else %}
+                                    {{  order.shipping_address.country}}
+                                {% endif %}
                             {% endfor %}
                         </address>
 
@@ -113,52 +117,32 @@
         <h2 class="th-title">{% trans "Order contents" %}</h2>
     </div>
 
-    <div class="basket-title">
-        <div class="row">
-            <p class="col-sm-9 th-title">{% trans "Items purchased" %}</p>
-            <p class="col-sm-1 th-title align-center">{% trans "Quantity" %}</p>
-            <p class="col-sm-2 th-title align-right">{% trans "Total" %}</p>
-        </div>
-    </div>
 
-    {% for line in order.lines.all %}
-        <div class="basket-items">
-            <div class="row">
-                <div class="col-sm-2">
-                    <div class="image_container">
-                        {% with image=line.product.primary_image %}
-                            {% thumbnail image.original "200x200" upscale=False as thumb %}
-                            <a href="{{ line.product.get_absolute_url }}"><img class="img-thumbnail" src="{{ thumb.url }}" alt="{{ product.get_title }}"></a>
-                            {% endthumbnail %}
-                        {% endwith %}
-                    </div>
-                </div>
-                <div class="col-sm-7">
-                    <h3 class="th-title"><a href="{{ line.product.get_absolute_url }}">{{ line.description }}</a></h3>
-                    <p>
-                    {% if line.upc %}{{ line.upc }}<br/>{% endif %}
-                    {% if line.est_dispatch_date %}
-                        {% blocktrans with date=line.est_dispatch_date %}
-                            Estimated dispatch: <strong>{{ date }}</strong>
-                        {% endblocktrans %}
-                    {% endif %}
-                    </p>
-                </div>
-                <div class="col-sm-1 align-center">
-                    {{ line.quantity }}
-                </div>
-                <div class="col-sm-2 align-right">
-                    <p class="price_color">
-                        {% if show_tax_separately %}
-                            {{ line.line_price_before_discounts_excl_tax|currency:order.currency }}
-                        {% else %}
-                            {{ line.line_price_before_discounts_incl_tax|currency:order.currency }}
-                        {% endif %}
-                    </p>
-                </div>
-            </div>
-        </div>
-    {% endfor %}
+
+
+     <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="th-title text-center">Etiquetas Personalizadas</th>
+                    <th class="th-title text-center">No. Cajas</th>
+                    <th class="th-title text-center">No. Botellas por Caja</th>
+                    <th class="th-title text-center">Producto</th>
+                    <th class="th-title text-center">Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in order.lines.all %}
+                <tr>
+                    <th style="width: 200px"><img src="{{ MEDIA_URL }}{{ label.label }}" alt="" class="img-thumbnail"/></th>
+                    <th class="text-center">{{ line.quantity }}</th>
+                    <th  class="text-center">{{ line.product.bottles }}</th>
+                    <th  class="text-center">{{ line.product.title  }}</th>
+                    <th  class="text-center">{{ line.line_price_incl_tax|currency:basket.currency }}</th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
 
     {% block basket_totals %}
         <div class="row">
@@ -239,7 +223,7 @@
                                 </tr>
                             {% else %}
                                 <tr>
-                                    <th class="total">{% trans "Shipping charge" %}</th>
+                                    <th class="total">{% trans "Costo de envío" %}</th>
                                     <th class="total align-right">
                                         {% if show_tax_separately %}
                                             {{ order.shipping_excl_tax|currency:order.currency }}
@@ -286,7 +270,7 @@
                                 <th colspan="2">&nbsp;</th>
                             </tr>
                             <tr>
-                                <td class="total "><h3 class="th-title">{% trans "Order total" %}</h3></td>
+                                <td class="total "><h3 class="th-title">{% trans "Total" %}</h3></td>
                                 <td class="total align-right "><h3 class="th-title price_color">{{ order.total_incl_tax|currency:order.currency }}</h3></td>
                             </tr>
                         {% endblock order_total %}
