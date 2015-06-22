@@ -1,5 +1,5 @@
 {% extends "checkout/layout.html" %}
-{% load currency_filters %}
+{% load local_currency_filters %}
 {% load thumbnail %}
 {% load i18n %}
 {% load purchase_info_tags %}
@@ -41,7 +41,11 @@
                         <h3 class="th-title">{% trans "Address" %}</h3>
                         <address>
                             {% for field in shipping_address.active_address_fields %}
-                                {{ field }}<br/>
+                                {% if not forloop.last %}
+                                    {{ field }}<br/>
+                                {% else %}
+                                    {{ shipping_address.country }}
+                                {% endif %}
                             {% endfor %}
                         </address>
 
@@ -116,6 +120,9 @@
                 <p class="col-sm-2 th-title align-right">{% trans "Total" %}</p>
             </div>
         </div>
+        {% for label in labels %}
+            {{ label.label }}
+        {% endfor %}
         {% for line in basket.all_lines %}
             {% purchase_info_for_line request line as session %}
             <div class="basket-items">

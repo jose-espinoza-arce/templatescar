@@ -22,7 +22,7 @@
     <div class="well well-success" data-behaviours="match-height">
 
         <h4 class="th-title">PayPal</h4>
-        <p>{% blocktrans with amount=order_total.incl_tax|local_currency %}
+        <p>{% blocktrans with amount=order_total.incl_tax|currency %}
             {{ amount }} Serán cargados a su cuenta de PayPal:
         {% endblocktrans %}</p>
         {{ paypal_form.render }}

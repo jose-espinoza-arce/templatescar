@@ -27,7 +27,11 @@
                                     <address>
                                         {% block select_address_fields %}
                                             {% for field in address.active_address_fields %}
-                                                <span>{{ field }}</span>{% if not forloop.first %}<br/>{% endif %}
+                                                {% if not forloop.last %}
+                                                <span>{% trans  field  %}</span>{% if not forloop.first %}<br/>{% endif %}
+                                                {% else %}
+                                                <span>{{ address.country }}</span>
+                                                {% endif %}
                                             {% endfor %}
                                         {% endblock %}
                                     </address>

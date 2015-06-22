@@ -1,5 +1,5 @@
 {% extends "customer/baseaccountpage.html" %}
-{% load currency_filters %}
+{% load local_currency_filters %}
 {% load display_tags %}
 {% load i18n %}
 {% load reviews_tags %}
@@ -17,7 +17,7 @@
             <tr class="th-tr-headlines">
                 <th>{% trans 'Product' %}</th>
                 <th>{% trans 'Dispatch date' %}</th>
-                <th>{% trans 'Qty' %}</th>
+                <th>{% trans 'Cant' %}</th>
                 <th>{% trans 'Line price excl. tax' %}</th>
                 <th>{% trans 'Line price incl. tax' %}</th>
 
@@ -153,8 +153,8 @@
     <table class="table  table-bordered">
         <tr class="th-tr-headlines">
             <th>{% trans 'Address' %}</th>
-            <th>{% trans 'Contact Number' %}</th>
-            <th>{% trans 'Shipping Notes' %}</th>
+            <th>{% trans 'Número de contacto' %}</th>
+            <th>{% trans 'Notas de envío' %}</th>
         </tr>
         <tr>
             <td>
