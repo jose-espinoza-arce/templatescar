@@ -127,7 +127,7 @@
             <tbody>
                 {% for line in basket.all_lines %}
                 <tr>
-                    <th style="width: 200px"><img src="http://localhost:8000/media/{{ label.label }}" alt="" class="img-thumbnail"/></th>
+                    <th style="width: 200px"><img src="{{ MEDIA_URL }}{{ label.label }}" alt="" class="img-thumbnail"/></th>
                     <th class="text-center">{{ line.quantity }}</th>
                     <th  class="text-center">{{ line.product.bottles }}</th>
                     <th  class="text-center">{{ line.product.title  }}</th>
